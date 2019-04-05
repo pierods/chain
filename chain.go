@@ -1,11 +1,10 @@
 package chain
 
 import (
-	"chain/primes"
+	"github.com/pierods/chain/primes"
+	"github.com/pierods/chain/ratecounter"
 	"math/rand"
 	"time"
-
-	"chain/ratecounter"
 )
 
 type Payload struct{}

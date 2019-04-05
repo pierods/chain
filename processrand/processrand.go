@@ -1,8 +1,6 @@
 package main
 
-import (
-	"chain"
-)
+import "github.com/pierods/chain"
 
 func main() {
 

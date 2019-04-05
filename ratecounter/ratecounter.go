@@ -29,7 +29,7 @@ func NewRateCounter(name string, counter *int64) *RateCounter {
 	printer := message.NewPrinter(language.English)
 
 	go func() {
-		for _ = range rc.ticker.C {
+		for range rc.ticker.C {
 			rate := *counter - rc.lastRead
 			rc.lastRead = *counter
 			printer.Printf("%s - rate: %d events/second\n", name, rate)
