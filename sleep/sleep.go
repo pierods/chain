@@ -17,6 +17,13 @@ func main() {
 	go chain.Sink(pipeOut)
 
 	go chain.Sleep1Unit(pipeIn, pipeMiddle)
+
+	go chain.Sleep10Units(pipeMiddle, pipeOut)
+	go chain.Sleep10Units(pipeMiddle, pipeOut)
+	go chain.Sleep10Units(pipeMiddle, pipeOut)
+	go chain.Sleep10Units(pipeMiddle, pipeOut)
+	go chain.Sleep10Units(pipeMiddle, pipeOut)
+	go chain.Sleep10Units(pipeMiddle, pipeOut)
 	go chain.Sleep10Units(pipeMiddle, pipeOut)
 	go chain.Sleep10Units(pipeMiddle, pipeOut)
 	go chain.Sleep10Units(pipeMiddle, pipeOut)

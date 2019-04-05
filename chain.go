@@ -13,7 +13,7 @@ type Payload struct{}
 Sleep1Unit will select from its input channel, sleep 100Msec (1 unit of time) and write to its output channel
 */
 func Sleep1Unit(pipeIn, pipeOut chan Payload) {
-	payLoad := struct{}{}
+	payLoad := Payload{}
 	for {
 		select {
 		case _ = <-pipeIn:
@@ -27,7 +27,7 @@ func Sleep1Unit(pipeIn, pipeOut chan Payload) {
 Sleep3Units will select from its input channel, sleep 300Msec (3 units of time) and write to its output channel
 */
 func Sleep3Units(pipeIn, pipeOut chan Payload) {
-	payLoad := struct{}{}
+	payLoad := Payload{}
 	for {
 		select {
 		case _ = <-pipeIn:
@@ -41,7 +41,7 @@ func Sleep3Units(pipeIn, pipeOut chan Payload) {
 Sleep10Units will select from its input channel, sleep 1000Msec (10 units of time) and write to its output channel
 */
 func Sleep10Units(pipeIn, pipeOut chan Payload) {
-	payLoad := struct{}{}
+	payLoad := Payload{}
 	for {
 		select {
 		case _ = <-pipeIn:
@@ -52,10 +52,37 @@ func Sleep10Units(pipeIn, pipeOut chan Payload) {
 }
 
 /*
+Sleep1SmallUnit will select from its input channel, sleep 1msec (1 small unit of time, 1000ops/sec theoretical throughput) and write to its output channel
+*/
+
+func Sleep1SmallUnit(pipeIn, pipeOut chan Payload) {
+	payLoad := Payload{}
+	for {
+		select {
+		case _ = <-pipeIn:
+			time.Sleep(time.Millisecond)
+			pipeOut <- payLoad
+		}
+	}
+}
+
+func Sleep10SmallUnits(pipeIn, pipeOut chan Payload) {
+	payLoad := Payload{}
+	for {
+		select {
+		case _ = <-pipeIn:
+			time.Sleep(time.Millisecond *10)
+			pipeOut <- payLoad
+		}
+	}
+}
+
+
+/*
 Load preloads a channel with size values
 */
-func Load(pipe chan Payload, size int) {
-	payLoad := struct{}{}
+func Load(pipe chan<- Payload, size int) {
+	payLoad := Payload{}
 
 	for i := 0; i < size; i++ {
 		pipe <- payLoad
@@ -65,7 +92,7 @@ func Load(pipe chan Payload, size int) {
 /*
 Sink acts as a sink for messages and counts the message rate
 */
-func Sink(pipe chan Payload) {
+func Sink(pipe <-chan Payload) {
 
 	var counter int64
 	ratecounter.NewRateCounter("sink", &counter)
@@ -82,7 +109,7 @@ func Sink(pipe chan Payload) {
 Process1MsRnd will read a value from its input channel, wait a random time lesser than 1Ms, keep the CPU busy for 1Ms and then write to its output channel
 */
 func Process1MsRnd(pipeIn, pipeOut chan Payload) {
-	payLoad := struct{}{}
+	payLoad := Payload{}
 	number := uint64(2e3) // 0.001secs
 
 	for {
